@@ -1,7 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Search, MapPin, Home, Users } from "lucide-react";
 
 function HomePage() {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+  const { role } = useSelector((state) => state.auth);
+  console.log(role);
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Hero Section */}
@@ -89,7 +94,7 @@ function HomePage() {
         <p className="mb-8 text-lg">
           Join thousands of people who have already found their perfect room with UrbanNext.
         </p>
-        <button className="bg-white text-blue-600 font-semibold px-8 py-3 rounded-full shadow hover:bg-gray-100 transition" onClick={() => window.location.href = '/register'}>
+        <button className="bg-white text-blue-600 font-semibold px-8 py-3 rounded-full shadow hover:bg-gray-100 transition" onClick={() => window.location.href = user ? (role === 'client' ? '/owner/dashboard' : '/explore') : '/register'}>
           Get Started
         </button>
       </section>

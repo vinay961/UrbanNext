@@ -1,22 +1,30 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import Form from "../../Components/Form/Form.jsx";
-import { auth, googleProvider, githubProvider } from "../../firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Form from "../../../Components/Form/Form.jsx";
+import { auth, googleProvider, githubProvider } from "../../../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { loginSuccess, loginFailure } from "../../../Redux/slices/authSlice.js";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      dispatch(loginSuccess({ user: userCredential.user }));
       console.log("User logged in:", userCredential.user);
       alert("Login successful!");
+      navigate("/");
     } catch (error) {
       console.error(error.message);
+      dispatch(loginFailure({ error: error.message }));
       alert(error.message);
     }
   };
@@ -24,10 +32,13 @@ function Login() {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      dispatch(loginSuccess({ user: result.user }));
       console.log("Google user:", result.user);
       alert("Google login successful!");
+      navigate("/");
     } catch (error) {
       console.error(error.message);
+      dispatch(loginFailure({ error: error.message }));
       alert(error.message);
     }
   };
@@ -37,6 +48,7 @@ function Login() {
       const result = await signInWithPopup(auth, githubProvider);
       console.log("GitHub user:", result.user);
       alert("GitHub login successful!");
+      navigate("/");
     } catch (error) {
       console.error(error.message);
       alert(error.message);

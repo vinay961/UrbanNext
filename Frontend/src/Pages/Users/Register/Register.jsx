@@ -1,50 +1,63 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import {useDispatch} from "react-redux";
+import {loginStart, loginSuccess, loginFailure} from "../../../Redux/slices/authSlice.js";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
-import Form from "../../Components/Form/Form";
-import { auth, googleProvider, githubProvider } from "../../firebase";
+import Form from "../../../Components/Form/Form.jsx";
+import { auth, googleProvider, githubProvider } from "../../../firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 function Register() {
+  const dispatch = useDispatch();
+  // const {loading, error} = useSelector((state) => state.auth);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-
+  
   const handleRegister = async (event) => {
     event.preventDefault();
+    dispatch(loginStart());
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      console.log("User registered:", user);
-      alert("Registration successful!");
+
+      const role = window.confirm("Are you an Client? Click 'OK' for Yes and 'Cancel' for No.") ? "client" : "user";
+      dispatch(loginSuccess({ user, role }));
     } catch (error) {
       console.error(error.message);
       alert(error.message);
+      dispatch(loginFailure({ error: error.message }));
     }
   };
 
   const handleGoogleLogin = async () => {
+    dispatch(loginStart());
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      console.log("Google user:", user);
+      const role = window.confirm("Are you an Client? Click 'OK' for Yes and 'Cancel' for No.") ? "client" : "user";
+      dispatch(loginSuccess({ user, role }));
       alert("Google login successful!");
     } catch (error) {
       console.error(error.message);
       alert(error.message);
+      dispatch(loginFailure({ error: error.message }));
     }
   };
 
   const handleGithubLogin = async () => {
+    dispatch(loginStart());
     try {
       const result = await signInWithPopup(auth, githubProvider);
       const user = result.user;
-      console.log("GitHub user:", user);
+      const role = window.confirm("Are you an Client? Click 'OK' for Yes and 'Cancel' for No.") ? "client" : "user";
+      dispatch(loginSuccess({ user, role }));
       alert("GitHub login successful!");
     } catch (error) {
       console.error(error.message);
       alert(error.message);
+      dispatch(loginFailure({ error: error.message }));
     }
   };
 
