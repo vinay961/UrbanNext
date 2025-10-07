@@ -12,14 +12,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // It is used to dispatch actions to the Redux store.
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       dispatch(loginSuccess({ user: userCredential.user }));
-      console.log("User logged in:", userCredential.user);
       alert("Login successful!");
       navigate("/");
     } catch (error) {
@@ -33,8 +32,6 @@ function Login() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       dispatch(loginSuccess({ user: result.user }));
-      console.log("Google user:", result.user);
-      alert("Google login successful!");
       navigate("/");
     } catch (error) {
       console.error(error.message);

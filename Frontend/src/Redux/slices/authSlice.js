@@ -11,7 +11,7 @@ const authSlice = createSlice({ // It take three parameter name of slice, initia
     name:"auth",
     initialState,
     reducers:{
-        loginStart: (state) => {
+        loginStart: (state) => { 
             state.loading = true,
             state.error = false
         },

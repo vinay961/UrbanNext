@@ -20,7 +20,6 @@ function HomePage() {
             in your preferred location.
           </p>
 
-          {/* Search Bar */}
           <div className="flex items-center bg-white rounded-full shadow-lg overflow-hidden max-w-2xl mx-auto">
             <input
               type="text"

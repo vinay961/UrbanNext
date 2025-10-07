@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   FaHome,
   FaPlus,
@@ -22,33 +23,30 @@ const data = [
 function ClientDashboard() {
   return (
     <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar */}
       <aside className="w-64 bg-white shadow-lg p-6 hidden md:block">
         <h2 className="text-2xl font-bold text-blue-600 mb-8">UrbanNext</h2>
         <nav className="space-y-4">
-          <a href="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
+          <Link to="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
             <FaHome /> Dashboard
-          </a>
-          <a href="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
+          </Link>
+          <Link to="/client/listings" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
             <FaList /> My Listings
-          </a>
-          <a href="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
+          </Link>
+          <Link to="/client/add-room" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
             <FaPlus /> Add Room
-          </a>
-          <a href="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
+          </Link>
+          <Link to="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
             <FaEnvelope /> Messages
-          </a>
-          <a href="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
+          </Link>
+          <Link to="#" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
             <FaCog /> Settings
-          </a>
+          </Link>
         </nav>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 p-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
 
-        {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
             <FaEye className="text-blue-500 text-3xl" />
@@ -73,9 +71,7 @@ function ClientDashboard() {
           </div>
         </div>
 
-        {/* Analytics & Recent Listings */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Analytics */}
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h2 className="text-xl font-semibold mb-4">Listings Overview</h2>
             <ResponsiveContainer width="100%" height={250}>
