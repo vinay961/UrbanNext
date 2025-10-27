@@ -10,7 +10,7 @@ const initialState = {
 const authSlice = createSlice({ // It take three parameter name of slice, initialState, reducers.
     name:"auth",
     initialState,
-    reducers:{
+    reducers:{  
         loginStart: (state) => { 
             state.loading = true,
             state.error = false
@@ -31,5 +31,5 @@ const authSlice = createSlice({ // It take three parameter name of slice, initia
     },
 });
 
-export const {loginFailure, loginStart, loginSuccess, logout} = authSlice.actions;
+export const {loginFailure, loginStart, loginSuccess, logout} = authSlice.actions; 
 export default authSlice.reducer;

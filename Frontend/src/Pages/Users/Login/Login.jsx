@@ -12,15 +12,18 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // It is used to dispatch actions to the Redux store.
+  const dispatch = useDispatch();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       dispatch(loginSuccess({ user: userCredential.user }));
-      alert("Login successful!");
-      navigate("/");
+      console.log("Logged in user:", userCredential.user);
+      setTimeout(() => {
+        alert("Login successful!");
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.error(error.message);
       dispatch(loginFailure({ error: error.message }));
@@ -30,9 +33,13 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider); 
       dispatch(loginSuccess({ user: result.user }));
-      navigate("/");
+      console.log("Google user:", result.user);
+      setTimeout(() => {
+        alert("Google login successful!");
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.error(error.message);
       dispatch(loginFailure({ error: error.message }));
