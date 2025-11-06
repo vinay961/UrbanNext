@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+
 import Form from "../../../Components/Form/Form.jsx";
+import { loginSuccess, loginFailure } from "../../../Redux/slices/authSlice.js";
+
 import { auth, googleProvider, githubProvider } from "../../../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { loginSuccess, loginFailure } from "../../../Redux/slices/authSlice.js";
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -18,14 +22,28 @@ function Login() {
     event.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      dispatch(loginSuccess({ user: userCredential.user }));
-      console.log("Logged in user:", userCredential.user);
-      setTimeout(() => {
-        alert("Login successful!");
-        navigate("/");
-      }, 1000);
+      const user = userCredential.user;
+
+      const res = await fetch(`http://localhost:5000/users/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: user.uid,
+          username: user.displayName,
+          email: user.email,
+          role: "user",
+        }),
+      });
+
+      const data = await res.json();
+      console.log("User created or exists:", data);
+
+      dispatch(loginSuccess({ user }));
+      alert("Login successful!");
+      navigate("/");
     } catch (error) {
-      console.error(error.message);
       dispatch(loginFailure({ error: error.message }));
       alert(error.message);
     }
@@ -33,15 +51,30 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider); 
-      dispatch(loginSuccess({ user: result.user }));
-      console.log("Google user:", result.user);
-      setTimeout(() => {
-        alert("Google login successful!");
-        navigate("/");
-      }, 1000);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      console.log("Google user:", user);
+      const res = await fetch("http://localhost:5000/users/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: user.uid,
+          username: user.displayName,
+          email: user.email,
+          role: "user",
+        }),
+      });
+
+      const data = await res.json();
+      console.log("User created or exists:", data);
+
+      dispatch(loginSuccess({ user }));
+      alert("Google login successful!");
+      navigate("/");
     } catch (error) {
-      console.error(error.message);
       dispatch(loginFailure({ error: error.message }));
       alert(error.message);
     }
