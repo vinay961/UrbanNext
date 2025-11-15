@@ -2,7 +2,6 @@ import User from "../Models/User.model.js";
 
 export const createUserIfNotExists = async (userData) => { 
   try {
-    console.log("Creating or finding user with data:", userData);
     let user = await User.findOne({ uid: userData.uid });
     if (!user) {
       user = new User(userData);
