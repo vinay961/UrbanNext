@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Search, MapPin, Home, Users } from "lucide-react";
 
 function HomePage() {
   const { user } = useSelector((state) => state.auth); 
   const { role } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    console.log("[HomePage] auth at mount:", user, role);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">

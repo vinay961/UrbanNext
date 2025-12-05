@@ -7,7 +7,7 @@ const spaceSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     type: { type: String, required: true },
     available: { type: Boolean, default: true },
-    images: [{ type: String, required: false }],
+    images: [{ type: String, required: false, default: [] }],
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 

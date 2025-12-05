@@ -5,25 +5,34 @@ function AddRoom() {
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
   const [type, setType] = useState("");
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [available, setAvailable] = useState(true);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you can send data to backend or Firebase
-    console.log({ title, location, price, type, image, available });
-    alert("Room added successfully!");
-    // Reset form
-    setTitle("");
-    setLocation("");
-    setPrice("");
-    setType("");
-    setImage(null);
-    setAvailable(true);
+    
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("location", location);
+    formData.append("price", price);
+    formData.append("type", type);
+    formData.append("available", available);
+    if (images.length > 0) {
+      images.forEach((image) => {
+        formData.append("images", image);
+      });
+    }
+
+    const response = await fetch("http://localhost:5000/api/spaces/createspace", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md mt-6">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md mt-6 mb-2">
       <h2 className="text-2xl font-bold mb-6 text-center">Add New Room</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Room Title */}
@@ -88,7 +97,8 @@ function AddRoom() {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
+            multiple
+            onChange={(e) => setImages(Array.from(e.target.files))}
             className="w-full"
           />
         </div>

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+
 import {
   FaHome,
   FaPlus,
@@ -21,6 +24,13 @@ const data = [
 ];
 
 function ClientDashboard() {
+  const { user } = useSelector((state) => state.auth);
+  useEffect(() => {
+    console.log("[ClientDashboard] auth at mount:", user);
+  }, []);
+
+  if (!user) return <Navigate to="/login" replace />;
+
   return (
     <div className="min-h-screen flex bg-gray-100">
       <aside className="w-64 bg-white shadow-lg p-6 hidden md:block">

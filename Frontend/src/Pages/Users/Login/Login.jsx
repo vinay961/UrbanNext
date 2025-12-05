@@ -40,39 +40,37 @@ function Login() {
       const data = await res.json();
       console.log("User created or exists:", data);
 
-      dispatch(loginSuccess({ user }));
-      alert("Login successful!");
+      dispatch(loginSuccess({ data }));
       navigate("/");
     } catch (error) {
       dispatch(loginFailure({ error: error.message }));
-      alert(error.message);
-    }
+      alert(error.message);}
   };
 
   const handleGoogleLogin = async () => {
-    try {
+    try {      
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
+      const data = {
+        uid: user.uid,
+        username: user.displayName,
+        email: user.email,
+        role: "user",
+      }
+
       console.log("Google user:", user);
-      const res = await fetch("http://localhost:5000/users/create", {
+      await fetch("http://localhost:5000/users/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          uid: user.uid,
-          username: user.displayName,
-          email: user.email,
-          role: "user",
-        }),
+        body: JSON.stringify( data ),
       });
 
-      const data = await res.json();
       console.log("User created or exists:", data);
 
-      dispatch(loginSuccess({ user }));
-      alert("Google login successful!");
+      dispatch(loginSuccess({ data }));
       navigate("/");
     } catch (error) {
       dispatch(loginFailure({ error: error.message }));

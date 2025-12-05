@@ -7,7 +7,7 @@ const initialState = {
     error : null
 };
 
-const authSlice = createSlice({ // It take three parameter name of slice, initialState, reducers.
+const authSlice = createSlice({ // It take three parameters name of slice, initialState, reducers.
     name:"auth",
     initialState,
     reducers:{  
@@ -16,9 +16,11 @@ const authSlice = createSlice({ // It take three parameter name of slice, initia
             state.error = false
         },
         loginSuccess: (state, action) => {
+            console.log(action);
+
             state.loading = false,
-            state.user = action.payload.user,
-            state.role = action.payload.role
+            state.user = action.payload.data.username,
+            state.role = action.payload.data.role
         },
         loginFailure: (state, action) => {
             state.loading = false,

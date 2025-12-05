@@ -1,12 +1,13 @@
 import {Router} from 'express';
+import { upload } from '../Middleware/multer.js';
 
 import { createSpace, getAllSpaces, getSpaceById, updateSpaceAvailability } from '../Controllers/space.controller';
 
 const router = Router();
 
-router.post('/createspace', async (req, res) => {
+router.post('/createspace', upload.single('image'), async (req, res) => {
     try {
-        const spaceData = req.body();
+        const spaceData = req.body;
         const newSpace = await createSpace(spaceData);
         res.status(201).json(newSpace);
     }

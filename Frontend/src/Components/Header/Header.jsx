@@ -9,11 +9,12 @@ function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { email } = useSelector((state) => state.auth);
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Explore", path: "/explore" },
-    { name: "About", path: "/about" },
+    { name: "About", path: "/about"  },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -22,9 +23,7 @@ function Header() {
   };
 
   // extract short name for avatar (like Google, Airbnb do)
-  const shortName = user?.displayName
-    ? user.displayName.charAt(0).toUpperCase()
-    : user?.email?.charAt(0).toUpperCase();
+  const shortName = user?.charAt(0).toUpperCase() || email?.charAt(0).toUpperCase();
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -61,7 +60,7 @@ function Header() {
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 border">
                   <p className="px-4 py-2 text-gray-700 border-b">
-                    {user.displayName || user.email}
+                    {user || email}
                   </p>
                   <Link
                     to="/profile"
@@ -132,7 +131,7 @@ function Header() {
               {user ? (
                 <>
                   <span className="text-gray-700 text-center">
-                    {user.displayName || user.email}
+                    {user || user}
                   </span>
                   <button
                     onClick={() => {
