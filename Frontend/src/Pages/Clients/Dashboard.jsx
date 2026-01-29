@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+// import React, { useEffect } from "react";
+// import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
@@ -24,12 +24,12 @@ const data = [
 ];
 
 function ClientDashboard() {
-  const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    console.log("[ClientDashboard] auth at mount:", user);
-  }, []);
+  // const { user } = useSelector((state) => state.auth);
+  // useEffect(() => {
+  //   console.log("[ClientDashboard] auth at mount:", user);
+  // }, );
 
-  if (!user) return <Navigate to="/login" replace />;
+  // if (!user) return <Navigate to="/login" replace />;
 
   return (
     <div className="min-h-screen flex bg-gray-100">
